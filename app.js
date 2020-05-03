@@ -34,7 +34,7 @@ function getQuestions() {
             type: "input",
             name: "name",
             message: "What is your name?"
-        },
+        },dd
         {
             type: "input",
             name: " ID",
