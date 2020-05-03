@@ -1,6 +1,3 @@
-# 10-Template-Engine---Employee-Summary
-10-Homework 
-# 10-Template-Engine---Employee-Summary
 Unit 10 OOP Homework
 # Unit 10 OOP Homework: Template Engine - Employee Summary
 
