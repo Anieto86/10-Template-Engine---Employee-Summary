@@ -11,6 +11,20 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
+// Call redner function 
+
+const employees = [
+new Manager(),
+new Engineer(),
+new intern(),
+]
+
+//employee.push(new Intern());
+
+const html = render(employees);
+
+fs.writeFile("ajkdfasfj.html",html);
+
 // Write code to use inquirer to gather information about the development team members,
 
 
@@ -23,8 +37,8 @@ function getQuestions() {
         },
         {
             type: "input",
-            name: "GitHub",
-            message: "What is your GitHub",
+            name: " ID",
+            message: "Please enter you ID : ",
         },
         {
             type: "input",
@@ -45,6 +59,14 @@ function getQuestions() {
 
 
 // After the user has input all employees desired, call the `render` function (required
+
+
+
+
+
+
+
+
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
