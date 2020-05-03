@@ -11,34 +11,33 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Call redner function 
 
-const employees = [
-new Manager(),
-new Engineer(),
-new intern(),
-]
-
-//employee.push(new Intern());
-
-const html = render(employees);
-
-fs.writeFile("ajkdfasfj.html",html);
 
 // Write code to use inquirer to gather information about the development team members,
 
 
-function getQuestions() {
-    return inquirer.prompt([
+function newManager() {
+     inquirer.prompt([
+        {
+            type: "list",
+            name: "position",
+            message: "What is your position?",
+            choices: ["Manager"]
+        },
         {
             type: "input",
             name: "name",
-            message: "What is your name?"
-        },dd
+            message: "Please enter Manager's Name: ",
+        },
         {
             type: "input",
-            name: " ID",
-            message: "Please enter you ID : ",
+            name: "ID",
+            message: "Please enter ID: ",
+        },
+        {
+            type: "input",
+            name: "number",
+            message: "Please enter office Number: ",
         },
         {
             type: "input",
@@ -54,14 +53,111 @@ function getQuestions() {
             }
         }
     ]);
-}
+};
+
+
+//put promise 
+
+function newEngineer (){
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "position",
+            message: "What is your position?",
+            choices: ["Engineer"]
+        },
+        {
+            type: "input",
+            name: "name",
+            message: "Please enter Engineer's Name: ",
+        },
+        {
+            type: "input",
+            name: "ID",
+            message: "Please enter ID: ",
+        },
+        {
+            type: "input",
+            name: "GitHub",
+            message: "Please enter GitHub username: ",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is your Email address : ",
+            validate: function (values) {
+                let pass = values.match(
+                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+                if (pass) {
+                    return true;
+                } return "Please enter a valid email"
+            }
+        }
+    ]);
+};
+
+// put promise
+
+
+function newInter (){
+    inquirer.prompt ([
+        {
+            type: "list",
+            name: "position",
+            message: "What is your position?",
+            choices: ["Intern"]
+        },
+        {
+            type: "input",
+            name: "name",
+            message: "Please enter Intern's Name: ",
+        },
+        {
+            type: "input",
+            name: "School",
+            message: "Please enter Intern's School: ",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is your Email address : ",
+            validate: function (values) {
+                let pass = values.match(
+                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+                if (pass) {
+                    return true;
+                } return "Please enter a valid email"
+            }
+        }
+    ]);
+};
+
+
+// put promise
+
+
+
 
 
 
 // After the user has input all employees desired, call the `render` function (required
 
 
+// Call redner function "G" explanation
 
+const employees = [
+    new Manager(),
+    new Engineer(),
+    new intern(),
+    ]
+    
+    //employee.push(new Intern());
+    
+    const html = render(employees);
+    
+    fs.writeFile("ajkdfasfj.html",html);
 
 
 
