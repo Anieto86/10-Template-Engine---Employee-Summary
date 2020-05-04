@@ -15,7 +15,8 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 
 
-    inquirer.prompt([
+async function askManager() {
+    return await inquirer.prompt([
         {
             type: "input",
             name: "manager",
@@ -43,13 +44,23 @@ const render = require("./lib/htmlRenderer");
                     return true;
                 } return "Please enter a valid email"
             }
-        },
+        }
+    ])
+}
+
+async function askRole() {
+    return await inquirer.prompt([
         {
             type: "checkbox",
             name: "Role",
             message: "What is your role?",
-            choices: ["Engineer", "Intern"]
-        },
+            choices: ["Engineer", "Intern", "exit"]
+        }
+    ]);
+}
+
+async function askEngineer() {
+    return await inquirer.prompt([
         {
             type: "input",
             name: "engineer",
@@ -59,11 +70,6 @@ const render = require("./lib/htmlRenderer");
             type: "input",
             name: "engineerID",
             message: "Please enter ID: ",
-        },
-        {
-            type: "input",
-            name: "nameEngenieer",
-            message: "Please enter Engenieer's Name: ",
         },
         {
             type: "input",
@@ -83,6 +89,11 @@ const render = require("./lib/htmlRenderer");
                 } return "Please enter a valid email"
             }
         },
+    ]);
+}
+
+async function askIntern() {
+    return await inquirer.prompt([
         {
             type: "input",
             name: "intern",
@@ -95,12 +106,7 @@ const render = require("./lib/htmlRenderer");
         },
         {
             type: "input",
-            name: "InterName",
-            message: "Please enter Intern's Name: ",
-        },
-        {
-            type: "input",
-            name: "School",
+            name: "school",
             message: "Please enter Intern's School: ",
         },
         {
@@ -117,42 +123,46 @@ const render = require("./lib/htmlRenderer");
             }
         }
     ])
-    .then(data => {
-        console.log("data", data)
-        .catch(error => {
-            if(error.isTtyError) {
-              // Prompt couldn't be rendered in the current environment
-            } else {
-              // Something else when wrong
-            }
-          });
-    });
+}
 
 
+const util = require("util");
 
-// After the user has input all employees desired, call the `render` function (required
+const writeFileAsync = util.promisify(fs.writeFile);
 
+async function main() {
+    // After the user has input all employees desired, call the `render` function (required
+    const employees = [];
+    
+    const manager = await askManager();
+    employees.push(new Manager(manager.manager, manager.managerID, manager.managerEmail, manager.officeNumber));
+    
+    let finished = false;
+    
+    while (finished) {
+        const role = await askRole();
+        
+        if (role.Role === "exit") {
+            finished = true;
+        }
+        else if (role.Role === "engineer") {
+            const engineer = await askEngineer();
+            // TODO create engineer
+            employees.push(new Engineer(engineer.engineer, engineer.engineerID, engineer.engineerEmail, engineer.GitHub));
+        }
+        // TODO else if intern
+        else if (role.Role === "intern"){
+            const engineer = await askIntern();
+            employees.push (new Intern (intern.intern , intern.interID,inter.internEmail,intern.school, ) );
+        }
+    }
+    
+    const html = render(employees);
+    await writeFileAsync(outputPath, html);
+    console.log("Success");
+}
 
-// Call rendner function "G" explanation
-
-const employees = [
-    new Manager(),
-    new Engineer(),
-    new Intern(),
-]
-
-const html = render(employees);
-
-employees.push(new Manager());
-fs.writeFile("team.html", html);
-
-employees.push(new Engineer());
-fs.writeFile("team.html", html);
-
-employees.push(new Intern());
-fs.writeFile("team.html", html);
-
-
+main();
 
 
 // above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!
