@@ -6,43 +6,35 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
+
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
 
-
-
 // Write code to use inquirer to gather information about the development team members,
 
-
-function newManager() {
-     inquirer.prompt([
+function newEmployee() {
+    inquirer.prompt([
         {
-            type: "list",
-            name: "position",
-            message: "What is your position?",
-            choices: ["Manager"]
+            type: "input",
+            name: "manager",
+            message: "What is your Manager's name?",
         },
         {
             type: "input",
-            name: "name",
-            message: "Please enter Manager's Name: ",
+            name: "managerID",
+            message: "What is your Manager's ID?",
         },
         {
             type: "input",
-            name: "ID",
-            message: "Please enter ID: ",
+            name: "managerNumber",
+            message: "What is your Manager's Number? ",
         },
         {
             type: "input",
-            name: "number",
-            message: "Please enter office Number: ",
-        },
-        {
-            type: "input",
-            name: "email",
-            message: "What is your Email address : ",
+            name: "managerEmail",
+            message: "What is your Manager's Email address? ",
             validate: function (values) {
                 let pass = values.match(
                     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -51,30 +43,27 @@ function newManager() {
                     return true;
                 } return "Please enter a valid email"
             }
-        }
-    ]);
-};
-
-
-//put promise 
-
-function newEngineer (){
-    inquirer.prompt([
+        },
         {
-            type: "list",
-            name: "position",
-            message: "What is your position?",
-            choices: ["Engineer"]
+            type: "checkbox",
+            name: "Role",
+            message: "What is your role?",
+            choices: ["Engineer", "Intern"]
         },
         {
             type: "input",
-            name: "name",
+            name: "engineer",
             message: "Please enter Engineer's Name: ",
         },
         {
             type: "input",
-            name: "ID",
+            name: "engineerID",
             message: "Please enter ID: ",
+        },
+        {
+            type: "input",
+            name: "nameEngenieer",
+            message: "Please enter Engenieer's Name: ",
         },
         {
             type: "input",
@@ -83,7 +72,7 @@ function newEngineer (){
         },
         {
             type: "input",
-            name: "email",
+            name: "engineerEmail",
             message: "What is your Email address : ",
             validate: function (values) {
                 let pass = values.match(
@@ -93,24 +82,20 @@ function newEngineer (){
                     return true;
                 } return "Please enter a valid email"
             }
-        }
-    ]);
-};
-
-// put promise
-
-
-function newInter (){
-    inquirer.prompt ([
-        {
-            type: "list",
-            name: "position",
-            message: "What is your position?",
-            choices: ["Intern"]
         },
         {
             type: "input",
-            name: "name",
+            name: "intern",
+            message: "What is your role?",
+        },
+        {
+            type: "input",
+            name: "interID",
+            message: "Please enter ID: ",
+        },
+        {
+            type: "input",
+            name: "InterName",
             message: "Please enter Intern's Name: ",
         },
         {
@@ -120,8 +105,8 @@ function newInter (){
         },
         {
             type: "input",
-            name: "email",
-            message: "What is your Email address : ",
+            name: "internEmail",
+            message: "What is your Email's address : ",
             validate: function (values) {
                 let pass = values.match(
                     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -132,45 +117,50 @@ function newInter (){
             }
         }
     ]);
-};
+}
 
 
-// put promise
-
-
-
+newEmployee()
+    .then(data => {
+        console.log("data", data)
+    });
 
 
 
 // After the user has input all employees desired, call the `render` function (required
 
 
-// Call redner function "G" explanation
+// Call rendner function "G" explanation
 
 const employees = [
     new Manager(),
     new Engineer(),
-    new intern(),
-    ]
-    
-    //employee.push(new Intern());
-    
-    const html = render(employees);
-    
-    fs.writeFile("ajkdfasfj.html",html);
+    new Intern(),
+]
+
+const html = render(employees);
+
+employees.push(new Manager());
+fs.writeFile("team.html", html);
+
+employees.push(new Engineer());
+fs.writeFile("team.html", html);
+
+employees.push(new Intern());
+fs.writeFile("team.html", html);
 
 
 
 
-
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+// above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
+
+
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
