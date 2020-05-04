@@ -14,7 +14,7 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 
-function newEmployee() {
+
     inquirer.prompt([
         {
             type: "input",
@@ -116,11 +116,7 @@ function newEmployee() {
                 } return "Please enter a valid email"
             }
         }
-    ]);
-}
-
-
-newEmployee()
+    ])
     .then(data => {
         console.log("data", data)
         .catch(error => {
